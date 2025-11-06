@@ -65,7 +65,6 @@ class NumeralConverter {
         if (sequence == null || sequence.isEmpty()) {
             return;
         }
-        
             for (int i = 1; i < sequence.length(); i++) {
                 rightNum = numAdapter.getNumber(sequence.charAt(i));
                 leftNum =  numAdapter.getNumber(sequence.charAt(i - 1));
