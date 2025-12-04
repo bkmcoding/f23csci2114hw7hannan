@@ -7,75 +7,72 @@
  */
 
 // {row, col}
+// 427337
+import java.util.Arrays;
+import java.util.Scanner;
+import java.io.File;
 
-// UNFINISHED
-// &$
 public class Hannan81 {
-    static int[][] pathway = {
-        {131, 673, 234, 103, 18},
-        {201, 96,  324, 965, 150},
-        {630, 803, 746, 422, 111},
-        {537, 699, 497, 121, 956},
-        {805, 732, 524, 37,  331}
-    };
-    static int pathwaySize = pathway.length;
+    static int[][] pathway;
+    static int pathwaySize;
+    static int[][] path;
 
     public static void main(String[] args) {
-        int pathCost = pathway[0][0];
-        int[] currentCord = {0,0};
-        
-        int[] endCoord = {pathwaySize - 1,pathwaySize - 1};
+        pathway = read("0081_matrix.txt");
+        pathwaySize = pathway.length;
+        path = new int[pathwaySize][pathwaySize];
 
-        int[][] neighborsIndices = {
-            {0,1}, {1,0}
-        };
 
-        while (!(currentCord[0] == endCoord[0] && currentCord[1] == endCoord[1])) {
-            int[] rightNeighbor = {currentCord[0], currentCord[1] + neighborsIndices[0][1]};
-            int[] downNeighbor = {currentCord[0] + neighborsIndices[1][0], currentCord[1]};
+        for (int[] row : path) Arrays.fill(row, -1);
 
-            currentCord = getLeastNeighbor(rightNeighbor, downNeighbor);
-
-            pathCost += getPathValue(currentCord);
-
-            // rightNeighborIndex = new int[]{currentCord[0] + neighbors[0][0], currentCord[1] + neighbors[0][1]};
-            // downNeighborIndex = new int[]{currentCord[0] + neighbors[1][0], currentCord[1] + neighbors[1][1]};
-            // if ((pathway[rightNeighborIndex[1]][rightNeighborIndex[0]]) >= (pathway[downNeighborIndex[1]][rightNeighborIndex[0]])) {
-            //     pathCost += pathway[rightNeighborIndex[1]][rightNeighborIndex[0]];
-            //     currentCord[0] = rightNeighborIndex[0];
-            //     currentCord[1] = rightNeighborIndex[1];
-            // }
-            // else {
-            //     pathCost += pathway[downNeighborIndex[1]][downNeighborIndex[0]];
-            //     currentCord[0] = downNeighborIndex[0];
-            //     currentCord[1] = downNeighborIndex[1];
-            // }
-            // System.out.println(currentCord[0] + ", " + currentCord[1]);
-            System.out.println(pathCost);
-        }
-        
+        int[] startCord = {0, 0};
+        System.out.println(getCostFrom(startCord));
     }
 
-    public static int[] getLeastNeighbor(int[] neighbor1, int[] neighbor2) {
-        // Ensure edge cases are within bounds
-        if (!(neighbor1[1] < pathwaySize)) {
-            return neighbor2;
-        } 
-        if (!(neighbor2[0] < pathwaySize)) {
-            return neighbor1;
+
+    public static int getCostFrom(int[] currentCord) {
+        int r = currentCord[0];
+        int c = currentCord[1];
+
+        if (r >= pathwaySize || c >= pathwaySize) {
+            return Integer.MAX_VALUE;
+        }
+        if (r == pathwaySize - 1 && c == pathwaySize - 1) {
+            return pathway[r][c];
+        }
+        if (path[r][c] != -1) {
+            return path[r][c];
         }
 
+        int[] rightNeighbor = {r, c + 1};
+        int[] downNeighbor  = {r + 1, c};
+        int costRight = getCostFrom(rightNeighbor);
+        int costDown  = getCostFrom(downNeighbor);
 
-        if (pathway[neighbor1[0]][neighbor1[1]] >= pathway[neighbor2[0]][neighbor2[1]]) {
-            return neighbor2;
-        } else {
-            return neighbor1;
-        }
+        int totalCost = pathway[r][c] + Math.min(costRight, costDown);
+        
+        path[r][c] = totalCost;
+        return totalCost;
     }
 
-    public static int getPathValue(int[] node) {
-        // System.out.println(node[0]);
-        // System.out.println(pathway[node[0]][node[1]]);
-        return (pathway[node[0]][node[1]]);
+    public static int[][] read(String fileName) {
+        try (Scanner scanner = new Scanner(new File(fileName))) {
+            int[][] arr = new int[80][80];
+
+            for (int r = 0; r < 80; r++) {
+                if (scanner.hasNextLine()) {
+                    String line = scanner.nextLine();
+                    String[] parts = line.split(",");
+                    
+                    for (int c = 0; c < 80; c++) {
+                        arr[r][c] = Integer.parseInt(parts[c]);
+                    }
+                }
+            }
+            return arr;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
