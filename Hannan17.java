@@ -6,7 +6,7 @@ public class Hannan17 {
         for (int i = 0; i <= 1000; i++) {
             wordconverter.convert(i);
         }
-        System.out.println("Character Count: " + wordconverter.charCount);
+        System.out.println(wordconverter.charCount);
     }
 
 }
@@ -31,7 +31,7 @@ class WordConverter {
             sentence += getOnesWords(ones);
         }
         charCount += sentence.length();
-        System.out.println(sentence);
+        // System.out.println(sentence);
         return sentence;
     }
 
@@ -41,10 +41,10 @@ class WordConverter {
         this.hundreds= setDigit(n, 100);
         this.tens = setDigit(n, 10);
         this.ones = setDigit(n, 1);
-        System.out.println(thousands);
-        System.out.println(hundreds);
-        System.out.println(tens);
-        System.out.println(ones);
+        // System.out.println(thousands);
+        // System.out.println(hundreds);
+        // System.out.println(tens);
+        // System.out.println(ones);
     }
 
     public int setDigit(int n, int digit) {

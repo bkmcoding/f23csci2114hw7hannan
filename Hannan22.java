@@ -31,13 +31,13 @@ public class Hannan22 {
             int count = 0;
             String word = words.get(i);
             for (int j = 0; j < word.length(); j++) {
-                System.out.println(word.charAt(j) - 64);
+                // System.out.println(word.charAt(j) - 64);
                 count += word.charAt(j) - 64;
             }
             total = total.add(BigInteger.valueOf(count * (i + 1)));
         }
 
-        System.out.println("Total is " + total.toString());
+        System.out.println(total.toString());
     }
 
     public static String read(String path) {
@@ -52,7 +52,7 @@ public class Hannan22 {
             System.out.println("Error reading file");
         }
         finally {
-            System.out.println("Successfully read file");
+            // System.out.println("Successfully read file");
         }
         return txt;
     }
@@ -71,7 +71,7 @@ public class Hannan22 {
             System.out.println("Error filtering words");
         }
         finally {
-            System.out.println("Words filtered successfully");
+            // System.out.println("Words filtered successfully");
         }
         return words;
     }
